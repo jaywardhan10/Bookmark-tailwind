@@ -64,10 +64,10 @@ function drawPoint(x, y, color = 'red') {
 }
 
 // Draw a line between two points
-function drawLine(from, to, color = 'blue') {
+function drawLine(from, to, progress, color = 'blue') {
     ctx.beginPath();
     ctx.moveTo(from.x, from.y);
-    ctx.lineTo(to.x, to.y);
+    ctx.lineTo(from.x + (to.x - from.x) * progress, from.y + (to.y - from.y) * progress);
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.stroke();
@@ -109,13 +109,6 @@ function animateLines() {
             }
         });
 
-        // Draw all previously connected lines
-        if (index > 0) {
-            for (let i = 0; i < index; i++) {
-                drawLine(points[i], points[i + 1], 'blue');
-            }
-        }
-
         // Draw the current line being animated and move the car
         if (index < points.length - 1) {
             const from = points[index];
@@ -127,12 +120,7 @@ function animateLines() {
             car.style.left = `${currentX - car.offsetWidth / 2}px`;
             car.style.top = `${currentY - car.offsetHeight / 2}px`;
 
-            ctx.beginPath();
-            ctx.moveTo(from.x, from.y);
-            ctx.lineTo(currentX, currentY);
-            ctx.strokeStyle = 'blue';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            drawLine(from, to, progress, 'blue');
 
             progress += speed;
 
