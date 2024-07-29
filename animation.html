@@ -18,8 +18,8 @@
         }
         .car {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             background-color: blue;
             border-radius: 50%;
         }
@@ -32,7 +32,7 @@
     <div class="car" id="car"></div>
     <script src="script.js"></script>
     <script>
-        const canvas = document.getElementById('myCanvas');
+       const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 const car = document.getElementById('car');
 
@@ -63,13 +63,17 @@ function drawPoint(x, y, color = 'red') {
     ctx.fill();
 }
 
-// Draw a line between two points
-function drawLine(from, to, progress, color = 'blue') {
+// Draw a line between two points with a gradient
+function drawLine(from, to, progress, color1 = 'gray', color2 = 'black') {
+    const gradient = ctx.createLinearGradient(from.x, from.y, to.x, to.y);
+    gradient.addColorStop(0, color1);
+    gradient.addColorStop(1, color2);
+
     ctx.beginPath();
     ctx.moveTo(from.x, from.y);
     ctx.lineTo(from.x + (to.x - from.x) * progress, from.y + (to.y - from.y) * progress);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 3;
     ctx.stroke();
 }
 
@@ -89,6 +93,14 @@ function drawLabel(x, y, text) {
     ctx.fillText(text, x - textWidth / 2, y + 5);
 }
 
+// Draw all points and labels
+function drawAllPointsAndLabels() {
+    points.forEach(point => {
+        drawPoint(point.x, point.y, 'green');
+        drawLabel(point.x, point.y - 20, point.label);
+    });
+}
+
 // Function to animate the connection of points and car movement
 function animateLines() {
     let index = 0;
@@ -98,16 +110,6 @@ function animateLines() {
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw all points with highlighting for the current and previous ones
-        points.forEach((point, i) => {
-            if (i <= index) {
-                drawPoint(point.x, point.y, 'green'); // Highlighted points
-                drawLabel(point.x, point.y - 20, point.label); // Draw labels above the point
-            } else {
-                drawPoint(point.x, point.y, 'red'); // Normal points
-            }
-        });
 
         // Draw the current line being animated and move the car
         if (index < points.length - 1) {
@@ -120,17 +122,29 @@ function animateLines() {
             car.style.left = `${currentX - car.offsetWidth / 2}px`;
             car.style.top = `${currentY - car.offsetHeight / 2}px`;
 
-            drawLine(from, to, progress, 'blue');
+            // Draw the line segment being animated
+            drawLine(from, to, progress);
 
-            progress += speed;
+            // Draw points and labels for all reached points
+            for (let i = 0; i <= index; i++) {
+                drawPoint(points[i].x, points[i].y, 'green');
+                drawLabel(points[i].x, points[i].y - 20, points[i].label);
+            }
 
+            // Draw the destination point if reached
             if (progress >= 1) {
+                drawPoint(to.x, to.y, 'green');
+                drawLabel(to.x, to.y - 20, to.label);
                 progress = 0;
                 index++;
                 setTimeout(animate, delay); // Delay before drawing the next line
             } else {
+                progress += speed;
                 requestAnimationFrame(animate);
             }
+        } else {
+            // Once the animation is complete, draw all points and labels
+            drawAllPointsAndLabels();
         }
     }
 
