@@ -32,6 +32,145 @@
     <div class="car" id="car"></div>
     <script src="script.js"></script>
     <script>
+
+// //bounce effect
+// const canvas = document.getElementById('myCanvas');
+// const ctx = canvas.getContext('2d');
+// const car = document.getElementById('car');
+
+// // Resize canvas to fill the viewport
+// function resizeCanvas() {
+//     canvas.width = window.innerWidth;
+//     canvas.height = window.innerHeight;
+// }
+// resizeCanvas();
+// window.addEventListener('resize', resizeCanvas);
+
+// // Fixed positions for the 7 services
+// const points = [
+//     { x: 100, y: 100, label: 'Service 1' },
+//     { x: 300, y: 80, label: 'Service 2' },
+//     { x: 500, y: 200, label: 'Service 3' },
+//     { x: 700, y: 150, label: 'Service 4' },
+//     { x: 900, y: 300, label: 'Service 5' },
+//     { x: 1100, y: 250, label: 'Service 6' },
+//     { x: 1300, y: 400, label: 'Service 7' }
+// ];
+
+// // Draw a point
+// function drawPoint(x, y, color = 'red') {
+//     ctx.beginPath();
+//     ctx.arc(x, y, 8, 0, 2 * Math.PI);
+//     ctx.fillStyle = color;
+//     ctx.fill();
+// }
+
+// // Draw a line between two points
+// function drawLine(from, to, progress, color = 'blue') {
+//     ctx.beginPath();
+//     ctx.moveTo(from.x, from.y);
+//     ctx.lineTo(from.x + (to.x - from.x) * progress, from.y + (to.y - from.y) * progress);
+//     ctx.strokeStyle = color;
+//     ctx.lineWidth = 2;
+//     ctx.stroke();
+// }
+
+// // Draw a label with a box
+// function drawLabel(x, y, text) {
+//     ctx.font = '14px Arial';
+//     ctx.fillStyle = 'black';
+//     const textWidth = ctx.measureText(text).width;
+//     const padding = 10;
+//     const boxWidth = textWidth + padding * 2;
+//     const boxHeight = 30;
+//     ctx.fillStyle = 'white';
+//     ctx.fillRect(x - boxWidth / 2, y - boxHeight / 2, boxWidth, boxHeight);
+//     ctx.strokeStyle = 'black';
+//     ctx.strokeRect(x - boxWidth / 2, y - boxHeight / 2, boxWidth, boxHeight);
+//     ctx.fillStyle = 'black';
+//     ctx.fillText(text, x - textWidth / 2, y + 5);
+// }
+
+// // Easing function for bounce effect
+// function easeOutBounce(t) {
+//     const n1 = 7.5625;
+//     const d1 = 2.75;
+//     if (t < 1 / d1) {
+//         return n1 * t * t;
+//     } else if (t < 2 / d1) {
+//         return n1 * (t -= 1.5 / d1) * t + 0.75;
+//     } else if (t < 2.5 / d1) {
+//         return n1 * (t -= 2.25 / d1) * t + 0.9375;
+//     } else {
+//         return n1 * (t -= 2.625 / d1) * t + 0.984375;
+//     }
+// }
+
+// // Draw all points and labels
+// function drawAllPointsAndLabels() {
+//     points.forEach(point => {
+//         drawPoint(point.x, point.y, 'green');
+//         drawLabel(point.x, point.y - 20, point.label);
+//     });
+// }
+
+// // Function to animate the connection of points and car movement
+// function animateLines() {
+//     let index = 0;
+//     let progress = 0;
+//     const speed = 0.02; // Speed of the animation
+//     const delay = 1000; // Delay between drawing each line
+
+//     function animate() {
+//         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+//         // Draw the current line being animated and move the car
+//         if (index < points.length - 1) {
+//             const from = points[index];
+//             const to = points[index + 1];
+//             const easedProgress = easeOutBounce(progress);
+//             const currentX = from.x + (to.x - from.x) * easedProgress;
+//             const currentY = from.y + (to.y - from.y) * easedProgress;
+
+//             // Move the car
+//             car.style.left = `${currentX - car.offsetWidth / 2}px`;
+//             car.style.top = `${currentY - car.offsetHeight / 2}px`;
+
+//             // Draw the line segment being animated
+//             drawLine(from, to, easedProgress, 'blue');
+
+//             // Draw points and labels for all reached points
+//             for (let i = 0; i <= index; i++) {
+//                 drawPoint(points[i].x, points[i].y, 'green');
+//                 drawLabel(points[i].x, points[i].y - 20, points[i].label);
+//             }
+
+//             // Draw the destination point if reached
+//             if (progress >= 1) {
+//                 drawPoint(to.x, to.y, 'green');
+//                 drawLabel(to.x, to.y - 20, to.label);
+//                 progress = 0;
+//                 index++;
+//                 setTimeout(animate, delay); // Delay before drawing the next line
+//             } else {
+//                 progress += speed;
+//                 requestAnimationFrame(animate);
+//             }
+//         } else {
+//             // Once the animation is complete, draw all points and labels
+//             drawAllPointsAndLabels();
+//         }
+//     }
+
+//     animate();
+// }
+
+// // Start animation
+// animateLines();
+
+
+
+
        const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 const car = document.getElementById('car');
@@ -46,12 +185,12 @@ window.addEventListener('resize', resizeCanvas);
 
 // Fixed positions for the 7 services
 const points = [
-    { x: 100, y: 100, label: 'Service 1' },
-    { x: 300, y: 80, label: 'Service 2' },
-    { x: 500, y: 200, label: 'Service 3' },
-    { x: 700, y: 150, label: 'Service 4' },
-    { x: 900, y: 300, label: 'Service 5' },
-    { x: 1100, y: 250, label: 'Service 6' },
+    { x: 100, y: 500, label: 'Service 1' },
+    { x: 400, y: 80, label: 'Service 2' },
+    { x: 500, y: 400, label: 'Service 3' },
+    { x: 50, y: 150, label: 'Service 4' },
+    { x: 1000, y: 100, label: 'Service 5' },
+    { x: 750, y: 100, label: 'Service 6' },
     { x: 1300, y: 400, label: 'Service 7' }
 ];
 
@@ -153,6 +292,8 @@ function animateLines() {
 
 // Start animation
 animateLines();
+
+
 
     </script>
 </body>
