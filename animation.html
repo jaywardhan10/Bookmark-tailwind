@@ -297,7 +297,6 @@
 
 
 
-
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 const car = document.getElementById('car');
@@ -323,21 +322,19 @@ function generateRandomPoints() {
     points.push({ x: 50, y: canvas.height - 50, label: test[0] });
 
     for (let i = 1; i < numPoints; i++) {
-        
         const x = Math.random() * (canvas.width - 100) + 50; // Ensure points are within bounds
         const y = Math.random() * (canvas.height - 100) + 50; // Ensure points are within bounds
-        // points.push({ x: x, y: y, label: `Service ${i + 1}` });
         points.push({ x: x, y: y, label: test[`${i}`] });
-
     }
 }
 
 // Initial generation of random points
 generateRandomPoints();
+
 // Draw a point
-function drawPoint(x, y, color = 'red') {
+function drawPoint(x, y, color = 'green') {
     ctx.beginPath();
-    ctx.arc(x, y, 8, 0, 2 * Math.PI);
+    ctx.arc(x, y, 5, 0, 2 * Math.PI); // 5 px radius for a 10 px diameter
     ctx.fillStyle = color;
     ctx.fill();
 }
@@ -430,8 +427,9 @@ function animateLines() {
     animate();
 }
 
-// // Start animation
+// Start animation
 animateLines();
+
 
 
     </script>
